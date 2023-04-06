@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    networks: 
+      - kafka_network
+    ports:
+      - "2181:2181"
+    expose:
+      - "2181"
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    networks: 
+      - kafka_network
+    ports:
+      - "9092:9092"
+    expose:
+      - "9092"
+     
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      
+networks:
+  kafka_network:
+    name: kafka_docker_example_net
